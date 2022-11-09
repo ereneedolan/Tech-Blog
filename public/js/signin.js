@@ -32,11 +32,13 @@ const signupFormHandler = async (event) => {
       body: JSON.stringify({ username, email, password }),
       headers: { 'Content-Type': 'application/json' },
     });
-
+    //make sure to add this to everything front end to get correct results
+    const result = await response.json()
+    console.log(result)
     if (response.ok) {
       document.location.replace('/');
     } else {
-      alert('Failed to sign up.');
+      alert('Failed to sign in.');
     }
   }
 };
@@ -45,6 +47,3 @@ document
   .querySelector('.signin-form')
   .addEventListener('submit', signinFormHandler);
 
-document
-  .querySelector('.signup-form')
-  .addEventListener('submit', signupFormHandler);

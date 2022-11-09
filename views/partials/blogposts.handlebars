@@ -1,0 +1,9 @@
+<section class="blogposts">
+{{#each blogposts as |blogpost|}}
+  <div class="blogposts-details">
+    <h3>{{blogpost.title}}</h3>
+    <p>By: {{blogpost.user.username}}</p>
+    <p>Posted: {{ format_date blogpost.blogpost_date}}</p>
+  </div>
+{{/each}}
+</section>

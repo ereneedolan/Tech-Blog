@@ -20,6 +20,10 @@ class Blogposts extends Model {}
         type: DataTypes.STRING,
         allowNull: false,
       },
+      blogpost_date: {
+        type: DataTypes.DATE,
+        default: Date.NOW,
+      },
       user_id: {
         type: DataTypes.INTEGER,
         references: {

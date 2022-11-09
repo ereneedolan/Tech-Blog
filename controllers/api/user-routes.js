@@ -60,9 +60,9 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-// Logout
+// Signout
 router.post('/signout', (req, res) => {
-  // When the user logs out, the session is destroyed
+  // When the user signs out, the session is destroyed
   if (req.session.signedIn) {
     req.session.destroy(() => {
       res.status(204).end();

@@ -1,72 +1,65 @@
 const router = require('express').Router();
-const { Gallery, Painting } = require('../models');
+const { User, Blogposts } = require('../models');
 
-// // GET all galleries for homepage - example from class
-// router.get('/', async (req, res) => {
-//   try {
-//     const dbGalleryData = await Gallery.findAll({
-//       include: [
-//         {
-//           model: Painting,
-//           attributes: ['filename', 'description'],
-//         },
-//       ],
-//     });
-
-//     const galleries = dbGalleryData.map((gallery) =>
-//       gallery.get({ plain: true })
-//     );
-
-    // TODO: Send over the 'SignedIn' session variable to the 'homepage' template
-    res.render('homepage', {
-      
-      loggedIn: req.session.loggedIn
+// // GET all blogposts
+router.get('/', async (req, res) => {
+  try {
+    const dbtechBlogData = await Blogposts.findAll({
+      include: [
+        {
+          model: User,
+        },
+        {
+          model: Comment,
+        },
+      ],
     });
-   catch (err) {
+
+    const blogposts = dbtechBlogData.map((blogposts) =>
+      blogposts.get({ plain: true })
+    );
+
+   //Send over the 'SignedIn' session variable to the 'homepage' template
+    res.render('homepage', {
+      blogposts,
+      signedIn: req.session.signedIn
+    });
+  }catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
+});
 
+// // GET one blogpost
+router.get('/gallery/:id', async (req, res) => {
+  try {
+    const dbtechBlogData = await Blogposts.findByPk(req.params.id, {
+      include: [
+        {
+          include: [
+            {
+              model: User,
+            },
+            {
+              model: Comment,
+            },
+          ],
+        },
+      ],
+    });
 
-// // GET one gallery example from class 
-// router.get('/gallery/:id', async (req, res) => {
-//   try {
-//     const dbGalleryData = await Gallery.findByPk(req.params.id, {
-//       include: [
-//         {
-//           model: Painting,
-//           attributes: [
-//             'id',
-//             'title',
-            
-//           ],
-//         },
-//       ],
-//     });
+    const blogpost = dbtechBlogData.get({ plain: true });
 
-//     const gallery = dbGalleryData.get({ plain: true });
-
-    // TODO: Send over the 'SignedIn' session variable to the 'gallery' template
-    res.render('gallery', { gallery, SignedIn: req.session.SignedIn });
-  catch (err) {
+    //Send over the 'signedIn' session variable to the 'blogpost' template
+    res.render('blogpost', { blogpost, signedIn: req.session.signedIn }
+    
+    );
+  }catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
+});
 
-//example from class
-// // GET one painting
-// router.get('/painting/:id', async (req, res) => {
-//   try {
-//     const dbPaintingData = await Painting.findByPk(req.params.id);
-
-//     const painting = dbPaintingData.get({ plain: true });
-//     // TODO: Send over the 'loggedIn' session variable to the 'homepage' template
-//     res.render('painting', { painting, loggedIn: req.session.loggedIn});
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json(err);
-//   }
-// });
 
 // Signin route
 router.get('/signin', (req, res) => {

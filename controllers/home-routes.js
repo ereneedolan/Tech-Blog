@@ -36,15 +36,11 @@ router.get('/gallery/:id', async (req, res) => {
     const dbtechBlogData = await Blogposts.findByPk(req.params.id, {
       include: [
         {
-          include: [
-            {
               model: User,
             },
             {
               model: Comment,
             },
-          ],
-        },
       ],
     });
 

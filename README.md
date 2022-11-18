@@ -42,5 +42,3 @@ N/A
 
 Not looking for any contributions at this time.
 
-## Tests
-

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Blogposts } = require('../models');
+const { User, Blogposts, Comment } = require('../models');
 
 // // GET all blogposts
 router.get('/', async (req, res) => {
@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
 });
 
 // // GET one blogpost
-router.get('/gallery/:id', async (req, res) => {
+router.get('/blogpost/:id', async (req, res) => {
   try {
     const dbtechBlogData = await Blogposts.findByPk(req.params.id, {
       include: [
